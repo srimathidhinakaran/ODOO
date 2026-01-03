@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globe Trotter - Travel Adventures</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Theme Color Variables */
+        :root {
+            /* Default Theme (Sunny) */
+            --primary: #FF6B35;
+            --secondary: #00B4D8;
+            --accent: #9D4EDD;
+            --success: #38B000;
+            --warning: #FFD166;
+            --danger: #EF476F;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            --background-overlay: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+            --navbar-bg: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+        }
+
+        /* Ocean Blue Theme */
+        .theme-ocean {
+            --primary: #00B4D8;
+            --secondary: #0077B6;
+            --accent: #48CAE4;
+            --success: #4CC9F0;
+            --warning: #FFD166;
+            --danger: #EF476F;
+            --dark: #03045E;
+            --light: #CAF0F8;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 30px rgba(0, 119, 182, 0.2);
+            --background-overlay: linear-gradient(rgba(0, 70, 100, 0.7), rgba(0, 100, 140, 0.7));
+            --navbar-bg: linear-gradient(135deg, #03045E 0%, #0077B6 100%);
+        }
+
+        /* Forest Green Theme */
+        .theme-forest {
+            --primary: #38B000;
+            --secondary: #2D7D46;
+            --accent: #7AE582;
+            --success: #38B000;
+            --warning: #FFD166;
+            --danger: #EF476F;
+            --dark: #1B4332;
+            --light: #D8F3DC;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 30px rgba(45, 125, 70, 0.2);
+            --background-overlay: linear-gradient(rgba(20, 60, 40, 0.7), rgba(30, 80, 50, 0.7));
+            --navbar-bg: linear-gradient(135deg, #1B4332 0%, #2D7D46 100%);
+        }
+
+        /* Sunset Orange Theme */
+        .theme-sunset {
+            --primary: #FF6B35;
+            --secondary: #FF9E6D;
+            --accent: #FF5400;
+            --success: #FF9E6D;
+            --warning: #FFD166;
+            --danger: #EF476F;
+            --dark: #3A0CA3;
+            --light: #FFE5D9;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 30px rgba(255, 107, 53, 0.2);
+            --background-overlay: linear-gradient(rgba(100, 40, 0, 0.7), rgba(150, 60, 0, 0.7));
+            --navbar-bg: linear-gradient(135deg, #3A0CA3 0%, #7209B7 100%);
+        }
+
+        /* Purple Dream Theme */
+        .theme-purple {
+            --primary: #9D4EDD;
+            --secondary: #7B2CBF;
+            --accent: #C77DFF;
+            --success: #7AE582;
+            --warning: #FFD166;
+            --danger: #EF476F;
+            --dark: #3C096C;
+            --light: #E0AAFF;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 30px rgba(157, 78, 221, 0.2);
+            --background-overlay: linear-gradient(rgba(60, 20, 100, 0.7), rgba(80, 30, 120, 0.7));
+            --navbar-bg: linear-gradient(135deg, #3C096C 0%, #7B2CBF 100%);
+        }
+
+        /* Apply theme background */
+        body {
+            background: 
+                var(--background-overlay),
+                url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.5s ease;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--navbar-bg);
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            transition: all 0.5s ease;
+        }
+
+        .nav-brand {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-brand i {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+        }
+
+        .logout-btn {
+            background: var(--danger);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #d2335c;
+            transform: translateY(-2px);
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            border-color: white;
+        }
+
+        .theme-btn.active {
+            background: white;
+            color: var(--primary);
+            border-color: white;
+            transform: scale(1.1);
+        }
+
+        /* Theme-specific button colors */
+        .theme-ocean .theme-btn.active {
+            color: #00B4D8;
+        }
+
+        .theme-forest .theme-btn.active {
+            color: #38B000;
+        }
+
+        .theme-sunset .theme-btn.active {
+            color: #FF6B35;
+        }
+
+        .theme-purple .theme-btn.active {
+            color: #9D4EDD;
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+        }
+
+        #searchInput {
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            width: 250px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--primary);
+            width: 300px;
+            background: white;
+            color: var(--dark);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ccc;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Styles */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Auth Pages */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+        }
+
+        .auth-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .auth-title {
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+        }
+
+        .auth-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Home Page */
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .welcome-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-text p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Destinations Grid */
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .destination-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .destination-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .destination-info {
+            padding: 1.5rem;
+        }
+
+        .destination-title {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .destination-desc {
+            color: #555;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .highlight {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--dark);
+        }
+
+        /* Profile Page */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary);
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-details {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #ff7b9c 100%);
+        }
+
+        /* Add Trip Page */
+        .trip-form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .budget-result {
+            background: linear-gradient(135deg, var(--success) 0%, #7ae582 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .budget-result.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .members-input {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .member-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .member-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .member-count {
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* My Trips Page */
+        .trips-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .trip-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--primary);
+        }
+
+        .trip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .trip-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .trip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .trip-title {
+            color: var(--dark);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .trip-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .status-planned {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .status-booked {
+            background: var(--success);
+        }
+
+        .status-completed {
+            background: var(--secondary);
+        }
+
+        .trip-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .trip-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #555;
+        }
+
+        .trip-detail i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .trip-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-book {
+            background: linear-gradient(135deg, var(--success) 0%, #7ae582 100%);
+        }
+
+        .btn-edit-trip {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+        }
+
+        .no-trips {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .no-trips i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .no-trips h3 {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--danger);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            z-index: 1001;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .theme-switcher {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+            
+            #searchInput {
+                width: 200px;
+            }
+            
+            #searchInput:focus {
+                width: 250px;
+            }
+            
+            .destinations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .trip-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .trip-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .theme-switcher {
+                gap: 0.3rem;
+            }
+            
+            .theme-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+            
+            #searchInput {
+                width: 150px;
+                padding: 0.5rem 0.8rem 0.5rem 2.2rem;
+                font-size: 0.8rem;
+            }
+            
+            #searchInput:focus {
+                width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation with Theme Switcher -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-brand" onclick="showPage('home')">
+            <i class="fas fa-globe-americas"></i> Globe Trotter
+        </a>
+        <div class="nav-links" id="navLinks">
+            <!-- Links will be dynamically added -->
+        </div>
+        
+        <!-- Theme Switcher -->
+        <div class="theme-switcher" id="themeSwitcher">
+            <button class="theme-btn active" onclick="changeTheme('default')" title="Default Theme">
+                <i class="fas fa-sun"></i>
+            </button>
+            <button class="theme-btn" onclick="changeTheme('ocean')" title="Ocean Blue">
+                <i class="fas fa-water"></i>
+            </button>
+            <button class="theme-btn" onclick="changeTheme('forest')" title="Forest Green">
+                <i class="fas fa-tree"></i>
+            </button>
+            <button class="theme-btn" onclick="changeTheme('sunset')" title="Sunset Orange">
+                <i class="fas fa-sunset"></i>
+            </button>
+            <button class="theme-btn" onclick="changeTheme('purple')" title="Purple Dream">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+        
+        <div class="search-box" style="display:none;" id="searchBox">
+            <input type="text" id="searchInput" placeholder="Search destinations...">
+            <i class="fas fa-search"></i>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Login Page -->
+        <div class="page active" id="loginPage">
+            <div class="auth-container">
+                <div class="auth-box">
+                    <h1 class="auth-title">Welcome Back!</h1>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginUsername">Username</label>
+                            <input type="text" id="loginUsername" class="form-control" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn">Login</button>
+                        <p style="margin-top: 1rem;">Don't have an account? 
+                            <a href="#" class="auth-link" onclick="showPage('signup')">Sign Up</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup Page -->
+        <div class="page" id="signupPage">
+            <div class="auth-container">
+                <div class="auth-box">
+                    <h1 class="auth-title">Join Adventure!</h1>
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label for="signupUsername">Username</label>
+                            <input type="text" id="signupUsername" class="form-control" placeholder="Choose a username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmail">Email</label>
+                            <input type="email" id="signupEmail" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Password</label>
+                            <input type="password" id="signupPassword" class="form-control" placeholder="Create a password" required>
+                        </div>
+                        <button type="submit" class="btn">Create Account</button>
+                        <p style="margin-top: 1rem;">Already have an account? 
+                            <a href="#" class="auth-link" onclick="showPage('login')">Login</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Home Page -->
+        <div class="page" id="homePage">
+            <div class="welcome-text">
+                <h1>Welcome, <span id="userName">Adventurer</span>!</h1>
+                <p>Discover amazing destinations for your next adventure</p>
+            </div>
+            <div class="filter-buttons" id="filterButtons" style="display:none;">
+                <button class="filter-btn active" onclick="filterDestinations('all')">All</button>
+                <button class="filter-btn" onclick="filterDestinations('beach')">Beach</button>
+                <button class="filter-btn" onclick="filterDestinations('mountain')">Mountain</button>
+                <button class="filter-btn" onclick="filterDestinations('city')">City</button>
+                <button class="filter-btn" onclick="filterDestinations('cultural')">Cultural</button>
+            </div>
+            <div class="destinations-grid" id="destinationsGrid">
+                <!-- Destinations will load dynamically -->
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div class="page" id="profilePage">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h1 id="profileUsername">Username</h1>
+                <p>Globe Trotter Adventurer</p>
+            </div>
+            
+            <div class="profile-details">
+                <h2 style="margin-bottom: 1.5rem; color: var(--dark);">Profile Information</h2>
+                <div class="detail-row">
+                    <span>Email</span>
+                    <span id="profileEmail">user@example.com</span>
+                </div>
+                <div class="detail-row">
+                    <span>Member Since</span>
+                    <span id="joinDate">2024</span>
+                </div>
+                <div class="detail-row">
+                    <span>Total Trips Planned</span>
+                    <span id="totalTrips">0</span>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-edit" onclick="editProfile()">Edit Profile</button>
+                    <button class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Trip Page -->
+        <div class="page" id="addTripPage">
+            <div class="welcome-text">
+                <h1>Plan Your Next Adventure</h1>
+                <p>Calculate your travel budget and plan the perfect trip</p>
+            </div>
+            
+            <div class="trip-form">
+                <form id="tripForm">
+                    <div class="form-group">
+                        <label for="tripDestination">Destination</label>
+                        <input type="text" id="tripDestination" class="form-control" placeholder="Where do you want to go?" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tripDuration">Duration (days)</label>
+                        <input type="number" id="tripDuration" class="form-control" min="1" max="30" value="7" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Number of Travelers</label>
+                        <div class="members-input">
+                            <button type="button" class="member-btn" onclick="changeMembers(-1)">-</button>
+                            <span class="member-count" id="memberCount">1</span>
+                            <button type="button" class="member-btn" onclick="changeMembers(1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="accommodation">Accommodation Type</label>
+                        <select id="accommodation" class="form-control">
+                            <option value="budget">Budget ($50/night)</option>
+                            <option value="mid">Mid-range ($150/night)</option>
+                            <option value="luxury">Luxury ($300+/night)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tripNotes">Notes (Optional)</label>
+                        <textarea id="tripNotes" class="form-control" rows="3" placeholder="Any special requirements or notes..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Save Trip Plan</button>
+                </form>
+                
+                <div class="budget-result" id="budgetResult">
+                    Estimated Budget: <span id="estimatedBudget">$0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Trips Page -->
+        <div class="page" id="myTripsPage">
+            <div class="welcome-text">
+                <h1>My Travel Adventures</h1>
+                <p>Manage your booked trips and travel history</p>
+            </div>
+            
+            <div class="trips-container" id="tripsContainer">
+                <!-- Trips will load dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Globe Trotter. All rights reserved. | Travel Smarter, Adventure Better</p>
+    </div>
+
+    <!-- Edit Trip Modal -->
+    <div class="modal" id="editTripModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Trip</h2>
+                <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+            <form id="editTripForm">
+                <input type="hidden" id="editTripId">
+                
+                <div class="form-group">
+                    <label for="editDestination">Destination</label>
+                    <input type="text" id="editDestination" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editDuration">Duration (days)</label>
+                    <input type="number" id="editDuration" class="form-control" min="1" max="30" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Number of Travelers</label>
+                    <div class="members-input">
+                        <button type="button" class="member-btn" onclick="changeEditMembers(-1)">-</button>
+                        <span class="member-count" id="editMemberCount">1</span>
+                        <button type="button" class="member-btn" onclick="changeEditMembers(1)">+</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editAccommodation">Accommodation Type</label>
+                    <select id="editAccommodation" class="form-control">
+                        <option value="budget">Budget</option>
+                        <option value="mid">Mid-range</option>
+                        <option value="luxury">Luxury</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editStatus">Trip Status</label>
+                    <select id="editStatus" class="form-control">
+                        <option value="planned">Planned</option>
+                        <option value="booked">Booked</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editNotes">Notes</label>
+                    <textarea id="editNotes" class="form-control" rows="3" placeholder="Add any notes about your trip..."></textarea>
+                </div>
+                
+                <div class="action-buttons" style="margin-top: 2rem;">
+                    <button type="submit" class="btn btn-edit">Save Changes</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteTrip()">Delete Trip</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Theme Management
+        let currentTheme = localStorage.getItem('globeTrotterTheme') || 'default';
+
+        // Function to change theme with background images
+        function changeTheme(themeName) {
+            // Remove all theme classes
+            document.body.classList.remove('theme-ocean', 'theme-forest', 'theme-sunset', 'theme-purple');
+            
+            // Add selected theme class
+            if (themeName !== 'default') {
+                document.body.classList.add(`theme-${themeName}`);
+            }
+            
+            // Change background image based on theme
+            const bgImages = {
+                'default': 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1920&q=80',
+                'ocean': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80',
+                'forest': 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&q=80',
+                'sunset': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80',
+                'purple': 'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=1920&q=80'
+            };
+            
+            // Update body background with new image
+            const currentOverlay = getComputedStyle(document.body).getPropertyValue('--background-overlay');
+            document.body.style.background = `${currentOverlay}, url('${bgImages[themeName]}')`;
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundAttachment = 'fixed';
+            document.body.style.backgroundPosition = 'center';
+            
+            // Update active button
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Save theme to localStorage
+            currentTheme = themeName;
+            localStorage.setItem('globeTrotterTheme', themeName);
+            
+            // Show notification
+            const themeNames = {
+                'default': 'Default',
+                'ocean': 'Ocean Blue',
+                'forest': 'Forest Green',
+                'sunset': 'Sunset Orange',
+                'purple': 'Purple Dream'
+            };
+            showNotification(`Theme changed to ${themeNames[themeName]}`, 'success');
+        }
+
+        // Function to load saved theme
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('globeTrotterTheme') || 'default';
+            
+            // Apply theme
+            if (savedTheme !== 'default') {
+                document.body.classList.add(`theme-${savedTheme}`);
+            }
+            
+            // Set background image
+            const bgImages = {
+                'default': 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1920&q=80',
+                'ocean': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80',
+                'forest': 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&q=80',
+                'sunset': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80',
+                'purple': 'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=1920&q=80'
+            };
+            
+            const currentOverlay = getComputedStyle(document.body).getPropertyValue('--background-overlay');
+            document.body.style.background = `${currentOverlay}, url('${bgImages[savedTheme]}')`;
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundAttachment = 'fixed';
+            document.body.style.backgroundPosition = 'center';
+            
+            // Update active button
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('onclick')?.includes(`'${savedTheme}'`)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Destinations Data
+        const destinations = [
+            {
+                id: 1,
+                name: "Bali, Indonesia",
+                image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80",
+                description: "Island paradise with beautiful beaches and rich culture.",
+                highlights: ["Beaches", "Temples", "Rice Terraces", "Waterfalls"]
+            },
+            {
+                id: 2,
+                name: "Santorini, Greece",
+                image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=800&q=80",
+                description: "Stunning white-washed buildings with blue domes overlooking the Aegean Sea.",
+                highlights: ["Sunset Views", "Wine Tasting", "Volcanic Beaches", "Ancient Ruins"]
+            },
+            {
+                id: 3,
+                name: "Kyoto, Japan",
+                image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80",
+                description: "Ancient capital with traditional temples and beautiful gardens.",
+                highlights: ["Temples", "Cherry Blossoms", "Geisha District", "Japanese Gardens"]
+            },
+            {
+                id: 4,
+                name: "Swiss Alps",
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80",
+                description: "Majestic mountains perfect for skiing and hiking adventures.",
+                highlights: ["Skiing", "Hiking", "Lakes", "Mountain Villages"]
+            },
+            {
+                id: 5,
+                name: "Paris, France",
+                image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80",
+                description: "City of Love with iconic landmarks and world-class cuisine.",
+                highlights: ["Eiffel Tower", "Louvre Museum", "Seine River", "French Cuisine"]
+            },
+            {
+                id: 6,
+                name: "Rome, Italy",
+                image: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=80",
+                description: "Eternal City with ancient ruins and delicious Italian food.",
+                highlights: ["Colosseum", "Vatican City", "Roman Forum", "Gelato"]
+            },
+                {
+        id: 7,
+        name: "New York City, USA",
+        image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=800&q=80",
+        description: "The city that never sleeps with iconic skyline and culture.",
+        highlights: ["Statue of Liberty", "Broadway", "Central Park", "Museums"]
+    },
+    {
+        id: 8,
+        name: "Sydney, Australia",
+        image: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80",
+        description: "Vibrant city with stunning harbor and beautiful beaches.",
+        highlights: ["Opera House", "Harbour Bridge", "Bondi Beach", "Wildlife"]
+    },
+    {
+        id: 9,
+        name: "Dubai, UAE",
+        image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80",
+        description: "Modern metropolis with futuristic architecture and luxury experiences.",
+        highlights: ["Burj Khalifa", "Desert Safari", "Luxury Shopping", "Palm Islands"]
+    },
+    {
+        id: 10,
+        name: "Barcelona, Spain",
+        image: "https://images.unsplash.com/photo-1583422409516-2895a77efded?auto=format&fit=crop&w=800&q=80",
+        description: "Cosmopolitan city with unique Gaudí architecture and Mediterranean charm.",
+        highlights: ["Sagrada Familia", "Park Güell", "Beaches", "Tapas"]
+    },
+    {
+        id: 11,
+        name: "Cape Town, South Africa",
+        image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80",
+        description: "Stunning coastal city with Table Mountain and diverse wildlife.",
+        highlights: ["Table Mountain", "Penguin Beach", "Wine Regions", "Safari"]
+    },
+    {
+        id: 12,
+        name: "Venice, Italy",
+        image: "https://images.unsplash.com/photo-1514890547357-a9ee288728e0?auto=format&fit=crop&w=800&q=80",
+        description: "Romantic city of canals, gondolas, and historic architecture.",
+        highlights: ["Grand Canal", "Gondola Rides", "St. Mark's Square", "Glass Making"]
+    },
+    {
+        id: 13,
+        name: "Tokyo, Japan",
+        image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80",
+        description: "Bustling metropolis blending traditional culture with futuristic technology.",
+        highlights: ["Shibuya Crossing", "Tsukiji Market", "Cherry Blossoms", "Anime Culture"]
+    },
+    {
+        id: 14,
+        name: "Maldives",
+        image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=80",
+        description: "Tropical paradise with overwater bungalows and crystal clear waters.",
+        highlights: ["Overwater Villas", "Snorkeling", "Private Islands", "Spa Retreats"]
+    },
+    {
+        id: 15,
+        name: "Rio de Janeiro, Brazil",
+        image: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=800&q=80",
+        description: "Vibrant city known for Carnival, beaches, and iconic landmarks.",
+        highlights: ["Christ Redeemer", "Copacabana Beach", "Sugarloaf Mountain", "Carnival"]
+    },
+    {
+        id: 16,
+        name: "Iceland",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80",
+        description: "Land of fire and ice with stunning natural wonders.",
+        highlights: ["Northern Lights", "Blue Lagoon", "Waterfalls", "Glaciers"]
+    },
+    // 
+    {
+    id: 17,
+    name: "Amsterdam, Netherlands",
+    image: "https://images.unsplash.com/photo-1512553353614-82a9c8ea2fbe?auto=format&fit=crop&w=800&q=80",
+    description: "Charming city of canals, museums, and historic architecture.",
+    highlights: ["Canals", "Van Gogh Museum", "Anne Frank House", "Tulip Fields"]
+},
+    {
+        id: 18,
+        name: "Machu Picchu, Peru",
+        image: "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=800&q=80",
+        description: "Ancient Incan citadel nestled high in the Andes Mountains.",
+        highlights: ["Inca Trail", "Ancient Ruins", "Andean Culture", "Mountain Views"]
+    },
+    {
+        id: 19,
+        name: "Bangkok, Thailand",
+        image: "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=800&q=80",
+        description: "Vibrant city with ornate temples, street food, and bustling markets.",
+        highlights: ["Grand Palace", "Floating Markets", "Street Food", "Temples"]
+    },
+    {
+        id: 20,
+        name: "London, UK",
+        image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80",
+        description: "Historic capital with royal palaces, museums, and modern attractions.",
+        highlights: ["Big Ben", "Buckingham Palace", "British Museum", "West End"]
+    },
+    // 
+    {
+    id: 21,
+    name: "Phuket, Thailand",
+    image: "https://images.unsplash.com/photo-1559561736-e0cf8b33dd74?auto=format&fit=crop&w=800&q=80",
+    description: "Tropical island with stunning beaches, limestone cliffs, and vibrant nightlife.",
+    highlights: ["Phi Phi Islands", "James Bond Island", "Beaches", "Thai Massage"]
+},
+    // 
+    {
+    id: 22,
+    name: "Prague, Czech Republic",
+    image: "https://images.unsplash.com/photo-1592906209472-a36b1f3782ef?auto=format&fit=crop&w=800&q=80",
+    description: "City of a hundred spires with medieval architecture and charming streets.",
+    highlights: ["Charles Bridge", "Prague Castle", "Old Town Square", "Czech Beer"]
+},
+    {
+        id: 23,
+        name: "Hawaii, USA",
+        image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=800&q=80",
+        description: "Tropical paradise with volcanoes, beaches, and Polynesian culture.",
+        highlights: ["Volcanoes", "Luaus", "Surfing", "Waterfalls"]
+    },
+   
+    {
+    id: 24,
+    name: "Lisbon, Portugal",
+    image: "https://images.unsplash.com/photo-1585208798174-7afe72dc0fbb?auto=format&fit=crop&w=800&q=80",
+    description: "Hilly coastal city with colorful buildings and historic charm.",
+    highlights: ["Tram 28", "Belém Tower", "Pastéis de Nata", "Fado Music"]
+},
+        ];
+
+        // Budget calculation data
+        const budgetData = {
+            "bali": { budget: 50, mid: 100, luxury: 200 },
+    "santorini": { budget: 80, mid: 150, luxury: 300 },
+    "kyoto": { budget: 70, mid: 130, luxury: 250 },
+    "swiss alps": { budget: 100, mid: 200, luxury: 400 },
+    "paris": { budget: 120, mid: 200, luxury: 400 },
+    "rome": { budget: 80, mid: 150, luxury: 300 },
+    "new york": { budget: 150, mid: 250, luxury: 500 },
+    "sydney": { budget: 90, mid: 180, luxury: 350 },
+    "dubai": { budget: 100, mid: 200, luxury: 450 },
+    "barcelona": { budget: 70, mid: 140, luxury: 280 },
+    "cape town": { budget: 60, mid: 120, luxury: 250 },
+    "venice": { budget: 90, mid: 180, luxury: 350 },
+    "tokyo": { budget: 80, mid: 160, luxury: 320 },
+    "maldives": { budget: 150, mid: 300, luxury: 600 },
+    "rio": { budget: 60, mid: 120, luxury: 250 },
+    "iceland": { budget: 110, mid: 220, luxury: 440 },
+    "amsterdam": { budget: 85, mid: 170, luxury: 340 },
+    "machu picchu": { budget: 70, mid: 140, luxury: 280 },
+    "bangkok": { budget: 40, mid: 80, luxury: 160 },
+    "london": { budget: 100, mid: 200, luxury: 400 },
+    "phuket": { budget: 45, mid: 90, luxury: 180 },
+    "prague": { budget: 55, mid: 110, luxury: 220 },
+    "hawaii": { budget: 120, mid: 240, luxury: 480 },
+    "lisbon": { budget: 65, mid: 130, luxury: 260 },
+    "singapore": { budget: 90, mid: 180, luxury: 360 },
+    "default": { budget: 60, mid: 120, luxury: 250 }
+        };
+
+        // User session management
+        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('globeTrotterUsers')) || [];
+        let userTrips = JSON.parse(localStorage.getItem('userTrips')) || {};
+
+        // DOM Elements
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.getElementById('navLinks');
+        const notification = document.getElementById('notification');
+        let currentTripId = null;
+
+        // Initialize the application
+        function initApp() {
+            // Load saved theme first
+            loadSavedTheme();
+            
+            // Check if user is already logged in
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showPage('home');
+                updateNavigation();
+                loadDestinations();
+                showSearchAndFilter();
+            } else {
+                showPage('login');
+            }
+            
+            // Setup event listeners
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('signupForm').addEventListener('submit', handleSignup);
+            document.getElementById('tripForm').addEventListener('submit', calculateBudget);
+            document.getElementById('editTripForm').addEventListener('submit', saveEditedTrip);
+            document.getElementById('searchInput').addEventListener('input', function() {
+                searchDestinations(this.value);
+            });
+            
+            // Setup modal close
+            document.getElementById('editTripModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeEditModal();
+                }
+            });
+        }
+
+        // Show specific page
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+                if (page.id === pageId + 'Page') {
+                    page.classList.add('active');
+                }
+            });
+            
+            // Update navigation active state
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick')?.includes(`'${pageId}'`)) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Load data for specific pages
+            if (pageId === 'home') {
+                loadDestinations();
+            } else if (pageId === 'profile' && currentUser) {
+                loadProfileData();
+            } else if (pageId === 'myTrips' && currentUser) {
+                loadUserTrips();
+            }
+        }
+
+        // Update navigation
+        function updateNavigation() {
+            navLinks.innerHTML = '';
+            
+            if (currentUser) {
+                navLinks.innerHTML = `
+                    <a href="#" class="nav-link active" onclick="showPage('home')">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link" onclick="showPage('addTrip')">
+                        <i class="fas fa-plus-circle"></i> Add Trip
+                    </a>
+                    <a href="#" class="nav-link" onclick="showPage('myTrips')">
+                        <i class="fas fa-suitcase"></i> My Trips
+                    </a>
+                    <a href="#" class="nav-link" onclick="showPage('profile')">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <button class="logout-btn" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                `;
+                document.getElementById('userName').textContent = currentUser.username;
+            } else {
+                navLinks.innerHTML = `
+                    <a href="#" class="nav-link" onclick="showPage('login')">Login</a>
+                    <a href="#" class="nav-link" onclick="showPage('signup')">Sign Up</a>
+                `;
+            }
+        }
+
+        // Show/hide search and filter
+        function showSearchAndFilter() {
+            document.getElementById('searchBox').style.display = 'block';
+            document.getElementById('filterButtons').style.display = 'flex';
+        }
+
+        function hideSearchAndFilter() {
+            document.getElementById('searchBox').style.display = 'none';
+            document.getElementById('filterButtons').style.display = 'none';
+        }
+
+        // Handle login
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showNotification('Login successful! Welcome back!', 'success');
+                showPage('home');
+                updateNavigation();
+                loadDestinations();
+                showSearchAndFilter();
+            } else {
+                showNotification('Invalid username or password', 'error');
+            }
+        }
+
+        // Handle signup
+        function handleSignup(e) {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            if (users.find(u => u.username === username)) {
+                showNotification('Username already exists', 'error');
+                return;
+            }
+            
+            const newUser = {
+                id: Date.now(),
+                username,
+                email,
+                password,
+                joinDate: new Date().toLocaleDateString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('globeTrotterUsers', JSON.stringify(users));
+            
+            showNotification('Account created successfully!', 'success');
+            showPage('login');
+        }
+
+        // Handle logout
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showNotification('Logged out successfully', 'success');
+            showPage('login');
+            updateNavigation();
+            hideSearchAndFilter();
+        }
+
+        // Load destinations
+        function loadDestinations() {
+            const grid = document.getElementById('destinationsGrid');
+            grid.innerHTML = '';
+            
+            destinations.forEach(destination => {
+                const card = document.createElement('div');
+                card.className = 'destination-card';
+                card.innerHTML = `
+                    <img src="${destination.image}" alt="${destination.name}" class="destination-img"
+                         onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80'">
+                    <div class="destination-info">
+                        <h3 class="destination-title">${destination.name}</h3>
+                        <p class="destination-desc">${destination.description}</p>
+                        <div class="highlights">
+                            ${destination.highlights.map(highlight => 
+                                `<span class="highlight">${highlight}</span>`
+                            ).join('')}
+                        </div>
+                        <button class="btn" style="margin-top: 1rem;" onclick="quickAddTrip('${destination.name}')">
+                            <i class="fas fa-plus"></i> Plan Trip Here
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Quick add trip from destination
+        function quickAddTrip(destination) {
+            showPage('addTrip');
+            document.getElementById('tripDestination').value = destination;
+            document.getElementById('tripDestination').focus();
+        }
+
+        // Search destinations
+        function searchDestinations(query) {
+            const grid = document.getElementById('destinationsGrid');
+            
+            if (!query.trim()) {
+                loadDestinations();
+                return;
+            }
+            
+            const filtered = destinations.filter(destination => 
+                destination.name.toLowerCase().includes(query.toLowerCase()) ||
+                destination.description.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            grid.innerHTML = '';
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #666;">No destinations found</h3>
+                        <p>Try searching for something else</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filtered.forEach(destination => {
+                const card = document.createElement('div');
+                card.className = 'destination-card';
+                card.innerHTML = `
+                    <img src="${destination.image}" alt="${destination.name}" class="destination-img">
+                    <div class="destination-info">
+                        <h3 class="destination-title">${destination.name}</h3>
+                        <p class="destination-desc">${destination.description}</p>
+                        <div class="highlights">
+                            ${destination.highlights.map(highlight => 
+                                `<span class="highlight">${highlight}</span>`
+                            ).join('')}
+                        </div>
+                        <button class="btn" style="margin-top: 1rem;" onclick="quickAddTrip('${destination.name}')">
+                            <i class="fas fa-plus"></i> Plan Trip Here
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter destinations
+        function filterDestinations(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const grid = document.getElementById('destinationsGrid');
+            
+            if (category === 'all') {
+                loadDestinations();
+                return;
+            }
+            
+            const filtered = destinations.filter(destination => {
+                if (category === 'beach') {
+                    return destination.highlights.some(h => h.toLowerCase().includes('beach'));
+                } else if (category === 'mountain') {
+                    return destination.highlights.some(h => h.toLowerCase().includes('mountain'));
+                } else if (category === 'city') {
+                    return destination.name.includes(',');
+                } else if (category === 'cultural') {
+                    return destination.highlights.some(h => 
+                        ['temple', 'museum', 'cultural', 'ruins'].some(word => 
+                            h.toLowerCase().includes(word)
+                        )
+                    );
+                }
+                return true;
+            });
+            
+            grid.innerHTML = '';
+            filtered.forEach(destination => {
+                const card = document.createElement('div');
+                card.className = 'destination-card';
+                card.innerHTML = `
+                    <img src="${destination.image}" alt="${destination.name}" class="destination-img">
+                    <div class="destination-info">
+                        <h3 class="destination-title">${destination.name}</h3>
+                        <p class="destination-desc">${destination.description}</p>
+                        <div class="highlights">
+                            ${destination.highlights.map(highlight => 
+                                `<span class="highlight">${highlight}</span>`
+                            ).join('')}
+                        </div>
+                        <button class="btn" style="margin-top: 1rem;" onclick="quickAddTrip('${destination.name}')">
+                            <i class="fas fa-plus"></i> Plan Trip Here
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Load profile data
+        function loadProfileData() {
+            if (!currentUser) return;
+            
+            document.getElementById('profileUsername').textContent = currentUser.username;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('joinDate').textContent = currentUser.joinDate;
+            
+            // Count user's trips
+            const trips = userTrips[currentUser.id] || [];
+            document.getElementById('totalTrips').textContent = trips.length;
+        }
+
+        // Edit profile
+        function editProfile() {
+            const newEmail = prompt('Enter new email:', currentUser.email);
+            if (newEmail && newEmail.includes('@')) {
+                currentUser.email = newEmail;
+                
+                const userIndex = users.findIndex(u => u.id === currentUser.id);
+                if (userIndex > -1) {
+                    users[userIndex] = currentUser;
+                    localStorage.setItem('globeTrotterUsers', JSON.stringify(users));
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    loadProfileData();
+                    showNotification('Profile updated successfully!', 'success');
+                }
+            }
+        }
+
+        // Delete account
+        function deleteAccount() {
+            if (confirm('Are you sure you want to delete your account? This will also delete all your trips.')) {
+                users = users.filter(u => u.id !== currentUser.id);
+                localStorage.setItem('globeTrotterUsers', JSON.stringify(users));
+                
+                delete userTrips[currentUser.id];
+                localStorage.setItem('userTrips', JSON.stringify(userTrips));
+                
+                handleLogout();
+                showNotification('Account deleted successfully', 'success');
+            }
+        }
+
+        // Change members count
+        function changeMembers(change) {
+            const countElement = document.getElementById('memberCount');
+            let count = parseInt(countElement.textContent);
+            count = Math.max(1, count + change);
+            countElement.textContent = count;
+        }
+
+        // Get budget data for destination
+        function getBudgetData(destination) {
+            const lowerDest = destination.toLowerCase();
+            for (const key in budgetData) {
+                if (lowerDest.includes(key)) {
+                    return budgetData[key];
+                }
+            }
+            return budgetData.default;
+        }
+
+        // Calculate budget and save trip
+        function calculateBudget(e) {
+            e.preventDefault();
+            
+            const destination = document.getElementById('tripDestination').value;
+            const duration = parseInt(document.getElementById('tripDuration').value);
+            const members = parseInt(document.getElementById('memberCount').textContent);
+            const accommodation = document.getElementById('accommodation').value;
+            const notes = document.getElementById('tripNotes').value;
+            
+            // Calculate budget
+            const prices = getBudgetData(destination);
+            let dailyCost = prices.mid;
+            
+            if (accommodation === 'budget') dailyCost = prices.budget;
+            else if (accommodation === 'luxury') dailyCost = prices.luxury;
+            
+            const totalBudget = dailyCost * duration * members;
+            
+            // Save trip for user
+            if (currentUser) {
+                if (!userTrips[currentUser.id]) {
+                    userTrips[currentUser.id] = [];
+                }
+                
+                const trip = {
+                    id: Date.now(),
+                    destination: destination,
+                    duration: duration,
+                    members: members,
+                    accommodation: accommodation,
+                    budget: totalBudget,
+                    status: 'planned',
+                    date: new Date().toLocaleDateString(),
+                    notes: notes
+                };
+                
+                userTrips[currentUser.id].push(trip);
+                localStorage.setItem('userTrips', JSON.stringify(userTrips));
+                
+                // Update profile trip count
+                const tripsCount = document.getElementById('totalTrips');
+                if (tripsCount) {
+                    tripsCount.textContent = userTrips[currentUser.id].length;
+                }
+                
+                // Display budget result
+                const budgetResult = document.getElementById('budgetResult');
+                const estimatedBudget = document.getElementById('estimatedBudget');
+                estimatedBudget.textContent = `$${totalBudget.toLocaleString()}`;
+                budgetResult.classList.add('show');
+                
+                showNotification('Trip saved successfully! View it in "My Trips"', 'success');
+                
+                // Clear form after 2 seconds
+                setTimeout(() => {
+                    e.target.reset();
+                    document.getElementById('memberCount').textContent = '1';
+                    budgetResult.classList.remove('show');
+                }, 2000);
+            } else {
+                showNotification('Please login to save trips', 'error');
+            }
+        }
+
+        // Load user trips
+        function loadUserTrips() {
+            const container = document.getElementById('tripsContainer');
+            
+            if (!currentUser) {
+                container.innerHTML = `
+                    <div class="no-trips">
+                        <i class="fas fa-suitcase"></i>
+                        <h3>Please login to view your trips</h3>
+                    </div>
+                `;
+                return;
+            }
+            
+            const trips = userTrips[currentUser.id] || [];
+            
+            if (trips.length === 0) {
+                container.innerHTML = `
+                    <div class="no-trips">
+                        <i class="fas fa-suitcase"></i>
+                        <h3>No trips planned yet</h3>
+                        <p>Start your first adventure by adding a trip!</p>
+                        <button class="btn" onclick="showPage('addTrip')" style="margin-top: 1rem;">
+                            <i class="fas fa-plus"></i> Plan Your First Trip
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            // Sort trips by date (newest first)
+            trips.sort((a, b) => b.id - a.id);
+            
+            trips.forEach(trip => {
+                const tripCard = document.createElement('div');
+                tripCard.className = 'trip-card';
+                
+                // Status badge
+                let statusClass = 'status-planned';
+                let statusText = 'Planned';
+                if (trip.status === 'booked') {
+                    statusClass = 'status-booked';
+                    statusText = 'Booked';
+                } else if (trip.status === 'completed') {
+                    statusClass = 'status-completed';
+                    statusText = 'Completed';
+                }
+                
+                tripCard.innerHTML = `
+                    <div class="trip-info">
+                        <div class="trip-header">
+                            <div>
+                                <h3 class="trip-title">${trip.destination}</h3>
+                                <span class="trip-status ${statusClass}">${statusText}</span>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">
+                                    $${trip.budget.toLocaleString()}
+                                </div>
+                                <div style="color: #666; font-size: 0.9rem;">Total Budget</div>
+                            </div>
+                        </div>
+                        
+                        <div class="trip-details">
+                            <div class="trip-detail">
+                                <i class="fas fa-calendar"></i>
+                                <span>${trip.duration} days</span>
+                            </div>
+                            <div class="trip-detail">
+                                <i class="fas fa-users"></i>
+                                <span>${trip.members} traveler${trip.members > 1 ? 's' : ''}</span>
+                            </div>
+                            <div class="trip-detail">
+                                <i class="fas fa-bed"></i>
+                                <span>${trip.accommodation.charAt(0).toUpperCase() + trip.accommodation.slice(1)}</span>
+                            </div>
+                            <div class="trip-detail">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Added: ${trip.date}</span>
+                            </div>
+                        </div>
+                        
+                        ${trip.notes ? `<p style="color: #666; margin-bottom: 1rem;"><i class="fas fa-sticky-note"></i> ${trip.notes}</p>` : ''}
+                        
+                        <div class="trip-actions">
+                            ${trip.status !== 'booked' ? `
+                                <button class="btn btn-sm btn-book" onclick="updateTripStatus(${trip.id}, 'booked')">
+                                    <i class="fas fa-check"></i> Mark as Booked
+                                </button>
+                            ` : ''}
+                            ${trip.status !== 'completed' ? `
+                                <button class="btn btn-sm btn-edit-trip" onclick="updateTripStatus(${trip.id}, 'completed')">
+                                    <i class="fas fa-flag-checkered"></i> Mark Complete
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-sm" onclick="openEditModal(${trip.id})">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(tripCard);
+            });
+        }
+
+        // Update trip status
+        function updateTripStatus(tripId, status) {
+            const trips = userTrips[currentUser.id] || [];
+            const tripIndex = trips.findIndex(trip => trip.id === tripId);
+            
+            if (tripIndex !== -1) {
+                trips[tripIndex].status = status;
+                userTrips[currentUser.id] = trips;
+                localStorage.setItem('userTrips', JSON.stringify(userTrips));
+                
+                loadUserTrips();
+                showNotification(`Trip marked as ${status}!`, 'success');
+            }
+        }
+
+        // Open edit modal
+        function openEditModal(tripId) {
+            currentTripId = tripId;
+            const trips = userTrips[currentUser.id] || [];
+            const trip = trips.find(t => t.id === tripId);
+            
+            if (trip) {
+                document.getElementById('editTripId').value = trip.id;
+                document.getElementById('editDestination').value = trip.destination;
+                document.getElementById('editDuration').value = trip.duration;
+                document.getElementById('editMemberCount').textContent = trip.members;
+                document.getElementById('editAccommodation').value = trip.accommodation;
+                document.getElementById('editStatus').value = trip.status;
+                document.getElementById('editNotes').value = trip.notes || '';
+                
+                document.getElementById('editTripModal').classList.add('active');
+            }
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            document.getElementById('editTripModal').classList.remove('active');
+            currentTripId = null;
+        }
+
+        // Change edit members
+        function changeEditMembers(change) {
+            const countElement = document.getElementById('editMemberCount');
+            let count = parseInt(countElement.textContent);
+            count = Math.max(1, count + change);
+            countElement.textContent = count;
+        }
+
+        // Save edited trip
+        function saveEditedTrip(e) {
+            e.preventDefault();
+            
+            const trips = userTrips[currentUser.id] || [];
+            const tripIndex = trips.findIndex(trip => trip.id === currentTripId);
+            
+            if (tripIndex !== -1) {
+                const destination = document.getElementById('editDestination').value;
+                const duration = parseInt(document.getElementById('editDuration').value);
+                const members = parseInt(document.getElementById('editMemberCount').textContent);
+                const accommodation = document.getElementById('editAccommodation').value;
+                const status = document.getElementById('editStatus').value;
+                const notes = document.getElementById('editNotes').value;
+                
+                // Recalculate budget
+                const prices = getBudgetData(destination);
+                let dailyCost = prices.mid;
+                if (accommodation === 'budget') dailyCost = prices.budget;
+                else if (accommodation === 'luxury') dailyCost = prices.luxury;
+                const totalBudget = dailyCost * duration * members;
+                
+                trips[tripIndex] = {
+                    ...trips[tripIndex],
+                    destination: destination,
+                    duration: duration,
+                    members: members,
+                    accommodation: accommodation,
+                    status: status,
+                    notes: notes,
+                    budget: totalBudget
+                };
+                
+                userTrips[currentUser.id] = trips;
+                localStorage.setItem('userTrips', JSON.stringify(userTrips));
+                
+                closeEditModal();
+                loadUserTrips();
+                showNotification('Trip updated successfully!', 'success');
+            }
+        }
+
+        // Delete trip
+        function deleteTrip() {
+            if (confirm('Are you sure you want to delete this trip? This action cannot be undone.')) {
+                const trips = userTrips[currentUser.id] || [];
+                const updatedTrips = trips.filter(trip => trip.id !== currentTripId);
+                userTrips[currentUser.id] = updatedTrips;
+                localStorage.setItem('userTrips', JSON.stringify(userTrips));
+                
+                closeEditModal();
+                loadUserTrips();
+                
+                // Update profile trip count
+                document.getElementById('totalTrips').textContent = updatedTrips.length;
+                
+                showNotification('Trip deleted successfully!', 'success');
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            notification.textContent = message;
+            notification.style.background = type === 'success' ? 'var(--success)' : 
+                                           type === 'error' ? 'var(--danger)' : 'var(--secondary)';
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initialize application when page loads
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

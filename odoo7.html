@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment & Transportation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #00B4D8;
+            --success: #38B000;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Payment Section */
+        .payment-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .trip-summary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-method {
+            background: var(--light);
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .payment-method.active {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .payment-method i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* UPI Section */
+        .upi-section {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .upi-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .upi-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .upi-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, #FF9E6D 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* QR Code Section */
+        .qr-section {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 1rem auto;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--dark);
+        }
+
+        /* Transportation Section */
+        .transport-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .transport-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .transport-option {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #ddd;
+        }
+
+        .transport-option:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .transport-option.active {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .transport-option i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .price-tag {
+            background: var(--success);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        /* Map Section */
+        .map-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .share-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            background: var(--light);
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .share-btn:hover {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        /* Receipt Section */
+        .receipt-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .receipt {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+            border: 2px dashed #ddd;
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .receipt-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #ddd;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, var(--success) 0%, #7ae582 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 176, 0, 0.4);
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, var(--success) 0%, #7ae582 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-message i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn-back {
+            background: #666;
+        }
+
+        .btn-back:hover {
+            background: #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .payment-methods,
+            .transport-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .upi-input-group {
+                flex-direction: column;
+            }
+            
+            .share-options {
+                flex-direction: column;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Payment Page -->
+        <div class="page active" id="paymentPage">
+            <div class="header">
+                <h1>Complete Your Payment</h1>
+                <p>Secure payment for your trip adventure</p>
+            </div>
+
+            <!-- Trip Summary -->
+            <div class="trip-summary">
+                <div class="summary-item">
+                    <span>Trip to:</span>
+                    <span id="tripDestination">Bali, Indonesia</span>
+                </div>
+                <div class="summary-item">
+                    <span>Duration:</span>
+                    <span id="tripDuration">7 days</span>
+                </div>
+                <div class="summary-item">
+                    <span>Travelers:</span>
+                    <span id="tripTravelers">2 persons</span>
+                </div>
+                <div class="summary-item">
+                    <span>Accommodation:</span>
+                    <span id="tripAccommodation">Mid-range</span>
+                </div>
+                <div class="total-amount" id="totalAmount">$1,400</div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="payment-container">
+                <h2 style="margin-bottom: 1.5rem;">Choose Payment Method</h2>
+                
+                <div class="payment-methods">
+                    <div class="payment-method active" onclick="selectPaymentMethod('upi')">
+                        <i class="fas fa-qrcode"></i>
+                        <h3>UPI / QR Code</h3>
+                        <p>Scan & Pay instantly</p>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('gpay')">
+                        <i class="fab fa-google-pay"></i>
+                        <h3>Google Pay</h3>
+                        <p>Fast & Secure</p>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('phonepe')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>PhonePe</h3>
+                        <p>Popular in India</p>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('card')">
+                        <i class="fas fa-credit-card"></i>
+                        <h3>Credit/Debit Card</h3>
+                        <p>Visa, Mastercard, RuPay</p>
+                    </div>
+                </div>
+
+                <!-- UPI Section -->
+                <div class="upi-section" id="upiSection">
+                    <h3 style="margin-bottom: 1rem;">Enter UPI ID</h3>
+                    <div class="upi-input-group">
+                        <input type="text" class="upi-input" id="upiId" placeholder="yourname@upi">
+                        <button class="btn" onclick="verifyUPI()">Verify</button>
+                    </div>
+                    <p style="color: #666; margin-bottom: 1rem;">OR</p>
+                    <button class="btn btn-full" onclick="generateQR()">
+                        <i class="fas fa-qrcode"></i> Generate QR Code
+                    </button>
+                </div>
+
+                <!-- QR Code Section -->
+                <div class="qr-section" id="qrSection" style="display: none;">
+                    <h3>Scan QR Code to Pay</h3>
+                    <div class="qr-code" id="qrCodeDisplay">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <p style="color: #666; margin-bottom: 1rem;">Amount: <span id="qrAmount">$1,400</span></p>
+                    <button class="btn" onclick="simulatePayment()">
+                        <i class="fas fa-check"></i> I've Paid
+                    </button>
+                </div>
+
+                <!-- Card Payment (Simplified) -->
+                <div style="display: none;" id="cardSection">
+                    <h3>Card Details</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">Card payment simulation</p>
+                    <button class="btn btn-full" onclick="simulatePayment()">
+                        <i class="fas fa-lock"></i> Pay Securely
+                    </button>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i> Back to Trip
+                    </button>
+                    <button class="btn" onclick="showTransport()">
+                        Continue to Transport <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transportation Page -->
+        <div class="page" id="transportPage">
+            <div class="header">
+                <h1>Choose Transportation</h1>
+                <p>Select how you want to travel</p>
+            </div>
+
+            <div class="transport-container">
+                <h2 style="margin-bottom: 1.5rem;">Transportation Options</h2>
+                
+                <div class="transport-options">
+                    <div class="transport-option active" onclick="selectTransport('flight')">
+                        <i class="fas fa-plane"></i>
+                        <h3>Flight</h3>
+                        <p>Fastest way to travel</p>
+                        <div class="price-tag">+ $500</div>
+                    </div>
+                    <div class="transport-option" onclick="selectTransport('train')">
+                        <i class="fas fa-train"></i>
+                        <h3>Train</h3>
+                        <p>Comfortable & scenic</p>
+                        <div class="price-tag">+ $200</div>
+                    </div>
+                    <div class="transport-option" onclick="selectTransport('bus')">
+                        <i class="fas fa-bus"></i>
+                        <h3>Bus</h3>
+                        <p>Economical choice</p>
+                        <div class="price-tag">+ $100</div>
+                    </div>
+                    <div class="transport-option" onclick="selectTransport('self')">
+                        <i class="fas fa-car"></i>
+                        <h3>Self Drive</h3>
+                        <p>Flexible & independent</p>
+                        <div class="price-tag">+ $300</div>
+                    </div>
+                </div>
+
+                <!-- Map Section -->
+                <div class="map-container">
+                    <h2 style="margin-bottom: 1rem;">Trip Route & Tracking</h2>
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span style="margin-left: 10px;">Google Maps Integration</span>
+                    </div>
+                    
+                    <h3 style="margin: 1.5rem 0 1rem;">Share Your Trip</h3>
+                    <div class="share-options">
+                        <button class="share-btn" onclick="shareLocation('live')">
+                            <i class="fas fa-share-alt"></i> Live Location
+                        </button>
+                        <button class="share-btn" onclick="shareLocation('route')">
+                            <i class="fas fa-route"></i> Share Route
+                        </button>
+                        <button class="share-btn" onclick="shareLocation('eta')">
+                            <i class="fas fa-clock"></i> Share ETA
+                        </button>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="showPayment()">
+                        <i class="fas fa-arrow-left"></i> Back to Payment
+                    </button>
+                    <button class="btn" onclick="completeBooking()">
+                        Complete Booking <i class="fas fa-check"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Receipt Page -->
+        <div class="page" id="receiptPage">
+            <div class="header">
+                <h1>Booking Confirmed!</h1>
+                <p>Your trip has been successfully booked</p>
+            </div>
+
+            <div class="success-message show" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                <h2>Payment Successful!</h2>
+                <p>Your booking is confirmed. Receipt has been generated.</p>
+            </div>
+
+            <div class="receipt-container">
+                <h2>Payment Receipt</h2>
+                <p style="color: #666; margin-bottom: 1rem;">Booking ID: <span id="bookingId">GTB-2024-7890</span></p>
+                
+                <div class="receipt">
+                    <div class="receipt-header">
+                        <h3>Globe Trotter Adventures</h3>
+                        <p>Travel Booking Receipt</p>
+                    </div>
+                    
+                    <div class="receipt-item">
+                        <span>Date:</span>
+                        <span id="receiptDate">March 15, 2024</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Destination:</span>
+                        <span id="receiptDestination">Bali, Indonesia</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Duration:</span>
+                        <span id="receiptDuration">7 days</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Travelers:</span>
+                        <span id="receiptTravelers">2 persons</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Accommodation:</span>
+                        <span id="receiptAccommodation">Mid-range</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Transportation:</span>
+                        <span id="receiptTransport">Flight</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Trip Cost:</span>
+                        <span id="receiptTripCost">$1,400</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Transport Cost:</span>
+                        <span id="receiptTransportCost">+ $500</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Taxes & Fees:</span>
+                        <span>+ $84</span>
+                    </div>
+                    <div class="receipt-item receipt-total">
+                        <span>Total Paid:</span>
+                        <span id="receiptTotal">$1,984</span>
+                    </div>
+                </div>
+
+                <button class="download-btn" onclick="downloadReceipt()">
+                    <i class="fas fa-download"></i> Download Receipt (PDF)
+                </button>
+                
+                <div style="margin-top: 2rem;">
+                    <button class="btn" onclick="goToMyTrips()">
+                        <i class="fas fa-suitcase"></i> View My Trips
+                    </button>
+                    <button class="btn" onclick="bookAnother()" style="margin-left: 1rem;">
+                        <i class="fas fa-plus"></i> Book Another Trip
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Trip data from main application
+        let currentTrip = {
+            destination: "Bali, Indonesia",
+            duration: "7 days",
+            travelers: "2 persons",
+            accommodation: "Mid-range",
+            tripCost: 1400,
+            transport: "flight",
+            transportCost: 500,
+            totalCost: 1900
+        };
+
+        let selectedPaymentMethod = 'upi';
+        let selectedTransport = 'flight';
+        let isPaymentComplete = false;
+
+        // Initialize
+        function initPaymentSystem(tripData) {
+            if (tripData) {
+                currentTrip = tripData;
+                updateTripSummary();
+                updateReceipt();
+            }
+        }
+
+        // Update trip summary
+        function updateTripSummary() {
+            document.getElementById('tripDestination').textContent = currentTrip.destination;
+            document.getElementById('tripDuration').textContent = currentTrip.duration;
+            document.getElementById('tripTravelers').textContent = currentTrip.travelers;
+            document.getElementById('tripAccommodation').textContent = currentTrip.accommodation;
+            document.getElementById('totalAmount').textContent = `$${currentTrip.tripCost}`;
+            document.getElementById('qrAmount').textContent = `$${currentTrip.tripCost}`;
+        }
+
+        // Update receipt
+        function updateReceipt() {
+            const today = new Date();
+            document.getElementById('receiptDate').textContent = today.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            document.getElementById('receiptDestination').textContent = currentTrip.destination;
+            document.getElementById('receiptDuration').textContent = currentTrip.duration;
+            document.getElementById('receiptTravelers').textContent = currentTrip.travelers;
+            document.getElementById('receiptAccommodation').textContent = currentTrip.accommodation;
+            document.getElementById('receiptTransport').textContent = getTransportName(currentTrip.transport);
+            document.getElementById('receiptTripCost').textContent = `$${currentTrip.tripCost}`;
+            document.getElementById('receiptTransportCost').textContent = `$${currentTrip.transportCost}`;
+            document.getElementById('receiptTotal').textContent = `$${currentTrip.totalCost}`;
+            
+            // Generate random booking ID
+            document.getElementById('bookingId').textContent = `GTB-${today.getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+        }
+
+        // Payment Methods
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            // Update active state
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.target.closest('.payment-method').classList.add('active');
+            
+            // Show relevant section
+            document.getElementById('upiSection').style.display = 'none';
+            document.getElementById('qrSection').style.display = 'none';
+            document.getElementById('cardSection').style.display = 'none';
+            
+            if (method === 'upi') {
+                document.getElementById('upiSection').style.display = 'block';
+            } else if (method === 'card') {
+                document.getElementById('cardSection').style.display = 'block';
+            }
+        }
+
+        // Verify UPI ID
+        function verifyUPI() {
+            const upiId = document.getElementById('upiId').value;
+            if (!upiId.includes('@')) {
+                alert('Please enter a valid UPI ID (e.g., name@upi)');
+                return;
+            }
+            alert(`UPI ID ${upiId} verified! Click Generate QR Code to proceed.`);
+        }
+
+        // Generate QR Code
+        function generateQR() {
+            const upiId = document.getElementById('upiId').value;
+            if (!upiId || !upiId.includes('@')) {
+                alert('Please enter and verify UPI ID first');
+                return;
+            }
+            
+            document.getElementById('upiSection').style.display = 'none';
+            document.getElementById('qrSection').style.display = 'block';
+            
+            // Generate QR code (simulated)
+            const qrDisplay = document.getElementById('qrCodeDisplay');
+            qrDisplay.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--dark);">UPI QR</div>
+                    <div style="font-size: 0.8rem; color: #666;">${upiId}</div>
+                    <div style="font-size: 1.2rem; font-weight: bold; margin-top: 0.5rem; color: var(--primary);">$${currentTrip.tripCost}</div>
+                </div>
+            `;
+        }
+
+        // Simulate payment
+        function simulatePayment() {
+            isPaymentComplete = true;
+            alert('Payment successful! Redirecting to transportation selection...');
+            showTransport();
+        }
+
+        // Transportation Methods
+        function selectTransport(method) {
+            selectedTransport = method;
+            
+            // Update active state
+            document.querySelectorAll('.transport-option').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.target.closest('.transport-option').classList.add('active');
+            
+            // Update transport cost based on selection
+            const transportCosts = {
+                'flight': 500,
+                'train': 200,
+                'bus': 100,
+                'self': 300
+            };
+            
+            currentTrip.transport = method;
+            currentTrip.transportCost = transportCosts[method] || 0;
+            currentTrip.totalCost = currentTrip.tripCost + currentTrip.transportCost + 84; // + taxes
+            
+            updateReceipt();
+        }
+
+        // Get transport name
+        function getTransportName(method) {
+            const names = {
+                'flight': 'Flight',
+                'train': 'Train',
+                'bus': 'Bus',
+                'self': 'Self Drive'
+            };
+            return names[method] || 'Flight';
+        }
+
+        // Share location functions
+        function shareLocation(type) {
+            const messages = {
+                'live': 'Live location sharing activated! Friends can track your journey.',
+                'route': 'Trip route shared successfully!',
+                'eta': 'Estimated arrival time shared with your contacts.'
+            };
+            alert(messages[type]);
+        }
+
+        // Navigation Functions
+        function showPayment() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('paymentPage').classList.add('active');
+        }
+
+        function showTransport() {
+            if (!isPaymentComplete) {
+                alert('Please complete payment first!');
+                return;
+            }
+            
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('transportPage').classList.add('active');
+        }
+
+        function completeBooking() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('receiptPage').classList.add('active');
+            
+            // Update localStorage with completed trip
+            saveCompletedTrip();
+        }
+
+        function goBack() {
+            // This would go back to main app
+            alert('Returning to main application...');
+            // In actual integration, you would trigger a callback to main app
+        }
+
+        // Save completed trip
+        function saveCompletedTrip() {
+            const completedTrips = JSON.parse(localStorage.getItem('completedTrips') || '[]');
+            const completedTrip = {
+                ...currentTrip,
+                id: Date.now(),
+                bookingDate: new Date().toISOString(),
+                bookingId: document.getElementById('bookingId').textContent,
+                status: 'booked',
+                receiptGenerated: true
+            };
+            
+            completedTrips.push(completedTrip);
+            localStorage.setItem('completedTrips', JSON.stringify(completedTrips));
+        }
+
+        // Download receipt as PDF
+        function downloadReceipt() {
+            alert('Receipt downloaded as PDF!');
+            // In a real application, this would generate and download a PDF
+            // For demo, we'll just show a success message
+        }
+
+        function goToMyTrips() {
+            alert('Redirecting to My Trips...');
+            // This would trigger navigation in main app
+        }
+
+        function bookAnother() {
+            // Reset and go back to payment page
+            isPaymentComplete = false;
+            document.getElementById('upiId').value = '';
+            document.getElementById('qrSection').style.display = 'none';
+            document.getElementById('upiSection').style.display = 'block';
+            
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('paymentPage').classList.add('active');
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we have trip data passed from main app
+            const urlParams = new URLSearchParams(window.location.search);
+            const tripData = urlParams.get('tripData');
+            
+            if (tripData) {
+                initPaymentSystem(JSON.parse(tripData));
+            } else {
+                // For standalone demo, use default data
+                initPaymentSystem();
+            }
+        });
+
+        // Function to be called from main app
+        function openPaymentSystem(tripData) {
+            initPaymentSystem(tripData);
+            // Show payment page
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('paymentPage').classList.add('active');
+        }
+
+        // Export function for main app integration
+        window.PaymentSystem = {
+            open: openPaymentSystem,
+            getCompletedTrips: function() {
+                return JSON.parse(localStorage.getItem('completedTrips') || '[]');
+            }
+        };
+        // Listen for messages from main app
+window.addEventListener('message', function(event) {
+    if (event.data.type === 'INIT_PAYMENT') {
+        initPaymentSystem(event.data.data);
+    }
+});
+
+// Send message back when payment completes
+function saveCompletedTrip() {
+    // ... existing code ...
+    
+    // Send message to main app
+    if (window.opener) {
+        window.opener.postMessage({
+            type: 'PAYMENT_COMPLETE',
+            tripId: currentTrip.id || Date.now()
+        }, '*');
+    }
+}
+    </script>
+</body>
+</html>
